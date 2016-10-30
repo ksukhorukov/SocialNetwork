@@ -1,0 +1,22 @@
+
+default: &default
+  adapter: postgresql
+  pool: 1000
+  timeout: 100
+  user: admininstrator
+  password: 1234567
+  host: localhost
+  port: 5000
+
+development:
+  <<: *default
+  database: twitter_dev
+
+
+test:
+  <<: *default
+  database: twitter_test
+
+production:
+  <<: *default
+  database: twitter_prod
