@@ -6,7 +6,6 @@ default: &default
   user: admininstrator
   password: 1234567
   host: localhost
-  port: 5000
 
 development:
   <<: *default

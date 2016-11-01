@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   has_many :likes
+  has_many :activities
 
   before_save { email.downcase! }
   before_create :create_remember_token
@@ -29,7 +30,8 @@ class User < ActiveRecord::Base
   end
 
   def feed
-    Micropost.from_users_followed_by(self)
+    #icropost.from_users_followed_by(self)
+    Activity.from_users_followed_by(self)
   end
 
   def following?(other_user)

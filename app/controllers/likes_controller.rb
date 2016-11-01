@@ -5,12 +5,14 @@ class LikesController < ApplicationController
 
 	def create
 		#byebug
-		current_user.likes.create(micropost_id: params[:like][:micropost_id])
+		like = current_user.likes.create(micropost_id: params[:like][:micropost_id])
+		Activity.create(category: 1, like_id: like.id, user_id: current_user.id)
 		redirect_to root_path
 	end
 
 	def destroy
-		Like.find_by_id(params[:id]).destroy!
+		like = Like.find_by_id(params[:id]).destroy!
+		like.activity.destroy!
 		redirect_to root_path
 	end
 

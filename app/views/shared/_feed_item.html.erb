@@ -1,28 +1,42 @@
-<li id="<%= feed_item.id %>">
+<% if feed_item.post? %>
+  <li id="<%= feed_item.id %>">
   <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   <span class="user">
     <%= link_to feed_item.user.name, feed_item.user %>
   </span>
-  <span class="content"><%= feed_item.content %></span>
+
+  <span class="content"><%= feed_item.micropost.content %></span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
   </span>
   <span class="likes">
-      <% if feed_item.liked?(current_user) %>
-        <%= form_for(current_user.likes.find_by_micropost_id(feed_item.id),
+      <% if feed_item.micropost.liked?(current_user) %>
+        <%= form_for(current_user.likes.find_by_micropost_id(feed_item.micropost.id),
                      html: { method: :delete }) do |f| %>
           <%= f.submit "Dislike", class: "btn btn-large" %>
         <% end %>
       <% else %>
-        <%= form_for(current_user.likes.build(micropost_id: feed_item.id)) do |f| %>
+        <%= form_for(current_user.likes.build(micropost_id: feed_item.micropost.id)) do |f| %>
           <div><%= f.hidden_field :micropost_id %></div>
           <%= f.submit "Like", class: "btn btn-large btn-primary" %>
         <% end %>      
       <% end %>
+      Likes: <%= feed_item.micropost.likes.count %></br>
   </span>
   <% if current_user?(feed_item.user) %>
-    <%= link_to "delete", feed_item, method: :delete,
+    <%= link_to "delete", feed_item.micropost, method: :delete,
                                      data: { confirm: "You sure?" },
-                                     title: feed_item.content %>
+                                     title: feed_item.micropost.content %>
   <% end %>
-</li>
+  </li>
+<% end %>
+<% if feed_item.like? %>
+  <li id="<%= feed_item.id %>">
+  <span class="content"><%= link_to feed_item.user.name, feed_item.user %> liked <%= link_to "post", Micropost.find_by_id(feed_item.like.micropost_id) %></span>
+  </li>
+<% end %>
+<% if feed_item.friendship? %>
+  <li id="<%= feed_item.id %>">
+  <span class="content"><%= link_to feed_item.user.name, feed_item.user  %> started to follow <%= link_to User.find_by_id(feed_item.relationship.followed_id).name, User.find_by_id(feed_item.relationship.followed_id) %></span>
+  </li>
+<% end %>

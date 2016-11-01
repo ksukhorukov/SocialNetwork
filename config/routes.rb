@@ -7,12 +7,7 @@ SampleApp40::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
-  resources :microposts, only: [:create, :destroy] do 
-    # member do 
-    #   get 'like', to: 'likes#create'
-    #   get 'dislike', to: 'likes#destroy'
-    # end
-  end
+  resources :microposts, only: [:create, :destroy, :show]
 
   resources :likes, only: [:create, :destroy]
 

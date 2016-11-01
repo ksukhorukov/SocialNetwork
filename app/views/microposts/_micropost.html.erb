@@ -15,6 +15,7 @@
           <%= f.submit "Like", class: "btn btn-large btn-primary" %>
         <% end %>      
       <% end %>
+      Likes: <%= micropost.likes.count %></br>
   </span>
   <% if current_user?(micropost.user) %>
     <%= link_to "delete", micropost, method: :delete,

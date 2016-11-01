@@ -6,6 +6,7 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
       flash[:success] = "Micropost created!"
+      Activity.create(category: 0, micropost_id: @micropost.id, user_id: current_user.id)
       redirect_to root_url
     else
       @feed_items = []
@@ -14,8 +15,13 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
+    @micropost.activity.destroy
     @micropost.destroy
     redirect_to root_url
+  end
+
+  def show
+    @micropost = Micropost.find_by_id(params[:id])
   end
 
   private
