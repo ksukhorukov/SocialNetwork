@@ -44,6 +44,7 @@ gem 'jquery-rails', '2.2.1'
 gem 'turbolinks', '~> 2.3.0'
 gem 'jbuilder', '1.0.2'
 gem 'responders', '~> 2.0'
+gem 'parallel', '~> 1.9'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false

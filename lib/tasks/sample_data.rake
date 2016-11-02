@@ -9,7 +9,7 @@ end
 
 def make_users
   admin = User.create!(name:     "Example User",
-                       email:    "example@epam.com",
+                       email:    "example@epam.org",
                        password: "foobar",
                        password_confirmation: "foobar")
   admin.toggle!(:admin)
@@ -47,7 +47,8 @@ def make_microposts
             50.times do
               content = Faker::Lorem.sentence(5)
               begin
-                users[j].microposts.create!(content: content)
+                micropost = users[j].microposts.create!(content: content)
+                Activity.create(category: 0, micropost_id: micropost.id, user_id: users[j].id)
               ensure
                 #ActiveRecord::Base.clear_active_connections!
               end
@@ -70,7 +71,10 @@ def make_relationships
           unless users[j].nil?
             100.times do 
               begin
-                users[j].follow!(users[rand(users.count-1)])
+                relationship = users[j].follow!(users[rand(users.count-1)])
+                if relationship
+                  Activity.create(category: 2, relationship_id: relationship.id, user_id: users[j].id)
+                end
               ensure
                 #ActiveRecord::Base.clear_active_connections!
               end

@@ -7,6 +7,8 @@ class Activity < ActiveRecord::Base
 
 	enum category: [:post, :like, :friendship] #0,1,2
 
+  default_scope -> { order('activities.created_at DESC') }
+
   def self.from_users_followed_by(user)
     followed_user_ids = "SELECT followed_id FROM relationships
                          WHERE follower_id = :user_id"
