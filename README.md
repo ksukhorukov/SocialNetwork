@@ -1,3 +1,3 @@
 # Social Network
 
-Simple clone of Twitter using Ruby and Rails
+Social Network powered by Ruby and Rails
