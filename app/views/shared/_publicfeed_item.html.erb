@@ -1,26 +1,28 @@
-<% if publicfeed_item.post? %>
-  <li id="<%= publicfeed_item.id %>">
-  <%= link_to gravatar_for(publicfeed_item.user), publicfeed_item.user %>
-  <span class="user">
-    <%= link_to publicfeed_item.user.name, publicfeed_item.user %>
-  </span>
+<% cache publicfeed_item do %>
+  <% if publicfeed_item.post? %>
+    <li id="<%= publicfeed_item.id %>">
+    <%= link_to gravatar_for(publicfeed_item.user), publicfeed_item.user %>
+    <span class="user">
+      <%= link_to publicfeed_item.user.name, publicfeed_item.user %>
+    </span>
 
-  <span class="content"><%= publicfeed_item.micropost.content %></span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(publicfeed_item.created_at) %> ago.
-  </span>
-  <span class="likes">
-      Likes: <%= publicfeed_item.micropost.likes.count %></br>
-  </span>
-  </li>
-<% end %>
-<% if publicfeed_item.like? %>
-  <li id="<%= publicfeed_item.id %>">
-  <span class="content"><%= link_to publicfeed_item.user.name, publicfeed_item.user %> liked <%= link_to "post", Micropost.find_by_id(publicfeed_item.like.micropost_id) %></span>
-  </li>
-<% end %>
-<% if publicfeed_item.friendship? %>
-  <li id="<%= publicfeed_item.id %>">
-  <span class="content"><%= link_to publicfeed_item.user.name, publicfeed_item.user  %> started to follow <%= link_to User.find_by_id(publicfeed_item.relationship.followed_id).name, User.find_by_id(publicfeed_item.relationship.followed_id) %></span>
-  </li>
+    <span class="content"><%= publicfeed_item.micropost.content %></span>
+    <span class="timestamp">
+      Posted <%= time_ago_in_words(publicfeed_item.created_at) %> ago.
+    </span>
+    <span class="likes">
+        Likes: <%= publicfeed_item.micropost.likes.count %></br>
+    </span>
+    </li>
+  <% end %>
+  <% if publicfeed_item.like? %>
+    <li id="<%= publicfeed_item.id %>">
+    <span class="content"><%= link_to publicfeed_item.user.name, publicfeed_item.user %> liked <%= link_to "post", Micropost.find_by_id(publicfeed_item.like.micropost_id) %></span>
+    </li>
+  <% end %>
+  <% if publicfeed_item.friendship? %>
+    <li id="<%= publicfeed_item.id %>">
+    <span class="content"><%= link_to publicfeed_item.user.name, publicfeed_item.user  %> started to follow <%= link_to User.find_by_id(publicfeed_item.relationship.followed_id).name, User.find_by_id(publicfeed_item.relationship.followed_id) %></span>
+    </li>
+  <% end %>
 <% end %>
